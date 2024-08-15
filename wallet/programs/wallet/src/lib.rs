@@ -1,16 +1,8 @@
 use anchor_lang::prelude::*;
 use anchor_lang::system_program;
-use serde::{Deserialize, Serialize};
-
 
 declare_id!("8RcNK61yi9KkwJQb4uxkrfnWhdESM63xHmv9rre2PF1o");
-#[derive(Serialize, Deserialize, Debug)]
 
-pub struct Wallet {
-    pub name: String,
-    pub public_key: String,
-    pub secret_key: String,
-}
 #[derive(Accounts)]
 
 
@@ -26,10 +18,6 @@ pub struct GetBalance<'info> {
     #[account(mut)]
     pub account: AccountInfo<'info>,
 }
-
-  
-
-
 
 #[program]
 pub mod transfer_sol {
@@ -51,11 +39,11 @@ pub mod transfer_sol {
     }     
  
 }
-
    
-pub fn get_balance_account(ctx:Context<GetBalance>) -> Result<u64> {
-    let account_info = ctx.accounts.account.to_account_info();
+pub fn get_balance_account(ctx:Context<GetBalance>) -> Result<f64> {
+   let account_info = ctx.accounts.account.to_account_info();
     let lamports = **account_info.lamports.borrow();
-    msg!("Account balance:{} lamports", lamports);
-    Ok(lamports)
+    let sol_balance = lamports as f64 / 1_000_000_000.0;
+    msg!("Account balance:{} lamports", sol_balance);
+    Ok(sol_balance)
 }
