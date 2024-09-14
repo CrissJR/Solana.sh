@@ -1,3 +1,0 @@
-# solanash
-
-CLI Wallet
